@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀 Animated Cloud Storage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(45deg, #ffffff 0%, #2575fc 100%);
+      --secondary-gradient: linear-gradient(45deg, #fc6767 0%, #ec008c 100%);
+      --tertiary-gradient: linear-gradient(45deg, #00c6ff 0%, #0072ff 100%);
+
+      --light-bg: #020617;
+      --dark-text: #0f172a;
+      --card-bg: rgba(15, 23, 42, 0.82);
+      --card-border: rgba(148, 163, 184, 0.38);
+      --shadow-light: 0 18px 60px rgba(15, 23, 42, 0.55);
+      --shadow-vibrant: 0 24px 80px rgba(56, 189, 248, 0.45);
+      --border-radius-lg: 22px;
+      --border-radius-sm: 11px;
+
+      --accent-soft: rgba(56, 189, 248, 0.14);
+      --accent-strong: #38bdf8;
+      --muted: #9ca3af;
+      --danger: #fb7185;
+      --success: #4ade80;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      background: radial-gradient(circle at top, #1d3557 0, #020617 45%, #000 100%);
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(70px);
+      opacity: 0.6;
+      z-index: -1;
+      animation: floatOrbs 16s ease-in-out infinite alternate;
+    }
+    .orb.orb-1 {
+      width: 340px;
+      height: 340px;
+      background: #4f46e5;
+      top: -60px;
+      left: -80px;
+    }
+    .orb.orb-2 {
+      width: 420px;
+      height: 420px;
+      background: #ec4899;
+      bottom: -80px;
+      right: -60px;
+      animation-delay: 3s;
+    }
+    .orb.orb-3 {
+      width: 260px;
+      height: 260px;
+      background: #22c55e;
+      bottom: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.35;
+      animation-delay: 6s;
+    }
+
+    @keyframes floatOrbs {
+      0% { transform: translate3d(0,0,0) scale(1); }
+      50% { transform: translate3d(20px, -30px, 0) scale(1.08); }
+      100% { transform: translate3d(-10px, 20px, 0) scale(0.96); }
+    }
+
+    @keyframes fadeInSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.03), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.25), transparent 60%),
+                  var(--card-bg);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-light);
+      padding: 28px 30px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(26px) saturate(140%);
+      animation: fadeInSlideUp 0.9s ease-out;
+      transform-origin: center;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background-image: linear-gradient(120deg, rgba(56, 189, 248, 0.55), transparent, rgba(239, 68, 68, 0.5));
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.4s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: var(--shadow-vibrant);
+      border-color: rgba(129, 230, 217, 0.7);
+    }
+
+    .container:hover::before {
+      opacity: 0.17;
+    }
+
+    h2 {
+      text-align: left;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 0 18px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 2.25em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 span.logo-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, rgba(248, 250, 252, 0.9), transparent),
+                  var(--secondary-gradient);
+      color: #0f172a;
+      font-size: 20px;
+      box-shadow: 0 10px 25px rgba(248, 113, 113, 0.45);
+    }
+
+    .subtitle {
+      text-align: left;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+    }
+
+    #auth-section,
+    #upload-section {
+      margin-top: 6px;
+      text-align: left;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="file"] {
+      width: 100%;
+      padding: 13px 14px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      border-radius: var(--border-radius-sm);
+      box-sizing: border-box;
+      font-size: 0.9rem;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, transform 0.1s ease;
+      background-color: rgba(15, 23, 42, 0.82);
+      color: #e5e7eb;
+    }
+
+    input::placeholder {
+      color: #64748b;
+    }
+
+    input:focus {
+      border-color: var(--accent-strong);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.75), 0 0 24px rgba(56, 189, 248, 0.35);
+      outline: none;
+      background-color: rgba(15, 23, 42, 0.96);
+      transform: translateY(-1px);
+    }
+
+    #fileInput {
+      border: 1.5px dashed rgba(148, 163, 184, 0.8);
+      padding: 20px;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.15), transparent 55%),
+                  rgba(15, 23, 42, 0.88);
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    #fileInput::file-selector-button {
+      display: none;
+    }
+
+    #fileInput::before {
+      content: '📂 Click to browse';
+      display: inline-block;
+      background: var(--tertiary-gradient);
+      color: white;
+      border-radius: 999px;
+      padding: 8px 16px;
+      margin-right: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.82rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.55);
+    }
+
+    #fileInput::after {
+      content: 'or drag & drop files here';
+      display: block;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      letter-spacing: 0.5px;
+    }
+
+    #fileInput:hover::before {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 16px 38px rgba(37, 99, 235, 0.7);
+      opacity: 0.96;
+    }
+
+    button {
+      padding: 11px 22px;
+      border: none;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.25s ease, background-position 0.35s ease, opacity 0.2s ease;
+      margin: 0 8px 14px 0;
+      font-size: 0.86rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.7);
+      color: white;
+      background-size: 210% auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:not(.delete-btn, .logout-btn) {
+      background-image: var(--primary-gradient);
+    }
+
+    button:hover:not(.delete-btn, .logout-btn):not(:disabled) {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(37, 99, 235, 0.7);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .ghost-btn {
+      background: transparent;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      color: #e5e7eb;
+      box-shadow: none;
+    }
+
+    .ghost-btn:hover {
+      background: rgba(15, 23, 42, 0.9);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.8);
+    }
+
+    .user-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+    }
+
+    .user-info span {
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.65);
+      font-size: 0.72rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #e5e7eb;
+    }
+
+    .pill .dot-soft {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.8);
+    }
+
+    #upload-section h3 {
+      color: #e5e7eb;
+      background: var(--tertiary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 1.2em;
+      letter-spacing: 0.7px;
+      position: relative;
+    }
+
+    #upload-section h3::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 70px;
+      height: 2px;
+      border-radius: 999px;
+      background: radial-gradient(circle at left, rgba(56, 189, 248, 1), transparent 60%);
+      opacity: 0.9;
+    }
+
+    #upload-section h3:nth-child(2) { animation: fadeInSlideUp 0.6s ease-out 0.08s backwards; }
+    #upload-section input { animation: fadeInSlideUp 0.6s ease-out 0.16s backwards; }
+    #upload-section button:first-of-type { animation: fadeInSlideUp 0.6s ease-out 0.24s backwards; }
+    #upload-section h3:nth-of-type(2) { animation: fadeInSlideUp 0.6s ease-out 0.3s backwards; }
+    #fileList { animation: fadeInSlideUp 0.6s ease-out 0.38s backwards; }
+
+    #upload-section > button.logout-btn {
+      background-image: var(--secondary-gradient);
+      margin-top: 20px;
+      display: inline-flex;
+      width: 100%;
+      justify-content: center;
+    }
+
+    #upload-section > button.logout-btn:hover {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(239, 68, 68, 0.7);
+    }
+
+    #fileList {
+      list-style: none;
+      padding: 12px 0 0;
+      max-height: 280px;
+      overflow-y: auto;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.65);
+      box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.2);
+      margin: 6px 0 0;
+    }
+
+    #fileList::-webkit-scrollbar {
+      width: 5px;
+    }
+    #fileList::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.8);
+      border-radius: 999px;
+    }
+
+    #fileList li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      transition: all 0.25s ease;
+      background-color: transparent;
+      margin: 0;
+      opacity: 0;
+      transform: translateX(-6px);
+      animation: listItemEntrance 0.45s ease-out forwards;
+    }
+
+    @keyframes listItemEntrance {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    #fileList li:hover {
+      background: radial-gradient(circle at left, rgba(56, 189, 248, 0.17), transparent 50%);
+      transform: translateX(5px);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.75);
+    }
+
+    #fileList li:last-child {
+      border-bottom: none;
+    }
+
+    .file-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .file-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    #fileList a {
+      background: var(--tertiary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      font-weight: 600;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 0.92rem;
+    }
+
+    .file-meta {
+      font-size: 0.72rem;
+      color: #9ca3af;
+    }
+
+    .delete-btn {
+      background-image: linear-gradient(45deg, #fb7185 0%, #fb923c 100%);
+      color: white;
+      font-size: 0.78rem;
+      padding: 7px 13px;
+      margin: 0;
+      flex-shrink: 0;
+      box-shadow: 0 10px 24px rgba(248, 113, 113, 0.7);
+    }
+
+    .delete-btn:hover {
+      background-position: right center;
+      transform: translateY(-1px) rotate(1deg);
+      box-shadow: 0 16px 32px rgba(248, 113, 113, 0.9);
+    }
+
+    .empty-state {
+      text-align: center;
+      width: 100%;
+      padding: 22px 18px 26px;
+      font-style: italic;
+      color: #9ca3af;
+      border-bottom: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      background: transparent !important;
+    }
+
+    .empty-state span {
+      display: block;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #e5e7eb;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      z-index: 9;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast-success {
+      border-color: rgba(74, 222, 128, 0.9);
+      box-shadow: 0 18px 40px rgba(34, 197, 94, 0.7);
+    }
+
+    .toast-error {
+      border-color: rgba(248, 113, 113, 0.9);
+      box-shadow: 0 18px 40px rgba(248, 113, 113, 0.7);
+    }
+
+    .toast-icon {
+      font-size: 1rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 22px 18px 24px;
+      }
+
+      h2 {
+        font-size: 1.9em;
+      }
+
+      .subtitle {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      #auth-section button {
+        width: calc(50% - 6px);
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+
+      #upload-section > button.logout-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 430px) {
+      #auth-section button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="container">
+    <h2>
+      <span class="logo-pill">☁️</span>
+      Dynamic Cloud Storage
+    </h2>
+    <div class="subtitle">
+      <div>Secure, minimal, and animated cloud storage built with Firebase.</div>
+      <div class="badge-pill">
+        <span class="badge-dot"></span> LIVE SYNC
+      </div>
+    </div>
+
+    <div id="auth-section">
+      <input type="email" id="email" placeholder="Email Address" />
+      <input type="password" id="password" placeholder="Password" />
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+        <button onclick="signup()">
+          <span>Sign Up</span>
+        </button>
+        <button onclick="login()" class="ghost-btn">
+          <span>Login</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="upload-section" class="hidden">
+      <div class="user-bar">
+        <div class="user-info">Hello, <span id="userEmail">User</span> 👋</div>
+        <div class="stats">
+          <div class="pill">
+            <span class="dot-soft"></span>
+            <span id="fileCount">0 files</span>
+          </div>
+        </div>
+      </div>
+
+      <h3>📤 Upload Your Files</h3>
+      <input type="file" id="fileInput" />
+      <button id="uploadBtn" onclick="uploadFile()">
+        ⬆ Upload File
+      </button>
+
+      <h3>📁 Your Stored Files</h3>
+      <ul id="fileList"></ul>
+
+      <button onclick="logout()" class="logout-btn">
+        🚪 Logout
+      </button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <span id="toastIcon" class="toast-icon">✅</span>
+    <span id="toastMsg">Message</span>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import {
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      signOut, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import {
+      getDatabase, ref, set, push, onValue, remove
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+    import {
+      getStorage, ref as storageRef, uploadString, getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVXMQo24HmRP00R_8jf0HF9YV1qQRenPk",
+      authDomain: "navi-simple-cloud.firebaseapp.com",
+      databaseURL: "https://navi-simple-cloud-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "navi-simple-cloud",
+      storageBucket: "navi-simple-cloud.appspot.com",
+      messagingSenderId: "886265036205",
+      appId: "1:886265036205:web:7f8fb8006e0454ba62b524"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const storage = getStorage(app);
+
+    const authSection = document.getElementById("auth-section");
+    const uploadSection = document.getElementById("upload-section");
+    const fileList = document.getElementById("fileList");
+    const userEmailSpan = document.getElementById("userEmail");
+    const fileCountSpan = document.getElementById("fileCount");
+    const uploadBtn = document.getElementById("uploadBtn");
+
+    const toastEl = document.getElementById("toast");
+    const toastMsgEl = document.getElementById("toastMsg");
+    const toastIconEl = document.getElementById("toastIcon");
+
+    let toastTimeout;
+    const showMessage = (msg, isSuccess = true) => {
+      toastMsgEl.textContent = msg;
+      toastIconEl.textContent = isSuccess ? "✅" : "⚠️";
+
+      toastEl.classList.remove("toast-success", "toast-error");
+      toastEl.classList.add(isSuccess ? "toast-success" : "toast-error");
+
+      toastEl.classList.add("show");
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 2600);
+    };
+
+    function formatBytes(bytes) {
+      if (!bytes || bytes === 0) return "Unknown size";
+      const sizes = ["B", "KB", "MB", "GB", "TB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(1024));
+      const value = bytes / Math.pow(1024, i);
+      return `${value.toFixed(value < 10 && i > 0 ? 1 : 0)} ${sizes[i]}`;
+    }
+
+    function formatDate(ts) {
+      if (!ts) return "Unknown date";
+      const d = new Date(ts);
+      return d.toLocaleString(undefined, {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function getIconForFile(name = "") {
+      const ext = (name.split(".").pop() || "").toLowerCase();
+      if (["png", "jpg", "jpeg", "gif", "webp", "svg"].includes(ext)) return "🖼️";
+      if (["pdf"].includes(ext)) return "📕";
+      if (["mp3", "wav", "flac", "aac"].includes(ext)) return "🎵";
+      if (["mp4", "mkv", "mov", "avi"].includes(ext)) return "🎬";
+      if (["zip", "rar", "7z"].includes(ext)) return "🗜️";
+      if (["doc", "docx"].includes(ext)) return "📘";
+      if (["ppt", "pptx"].includes(ext)) return "📊";
+      if (["xls", "xlsx", "csv"].includes(ext)) return "📈";
+      return "📄";
+    }
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        authSection.classList.add("hidden");
+        setTimeout(() => {
+          uploadSection.classList.remove("hidden");
+          userEmailSpan.textContent = user.email.split("@")[0];
+          loadFiles(user.uid);
+        }, 60);
+      } else {
+        uploadSection.classList.add("hidden");
+        setTimeout(() => {
+          authSection.classList.remove("hidden");
+          userEmailSpan.textContent = "User";
+          fileCountSpan.textContent = "0 files";
+        }, 60);
+      }
+    });
+
+    window.signup = function () {
+      const email = document.getElementById("email").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      if (!email || !pass) {
+        return showMessage("Please enter both email and password.", false);
+      }
+
+      createUserWithEmailAndPassword(auth, email, pass)
+        .then(() => showMessage("Signup successful! 🎉"))
+        .catch(e => showMessage(e.message, false));
+    };
+
+    window.login = function () {
+      const email = document.getElementById("email").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      if (!email || !pass) {
+        return showMessage("Please enter both email and password.", false);
+      }
+
+      signInWithEmailAndPassword(auth, email, pass)
+        .then(() => showMessage("Login successful! 🚀"))
+        .catch(e => showMessage(e.message, false));
+    };
+
+    window.logout = function () {
+      signOut(auth)
+        .then(() => showMessage("Logged out. See you soon! 👋", true))
+        .catch(e => showMessage(e.message, false));
+    };
+
+    window.uploadFile = async function () {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+
+      if (!file) return showMessage("Select a file first!", false);
+
+      const user = auth.currentUser;
+      if (!user) return showMessage("Please login first!", false);
+
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = "Uploading...";
+
+      try {
+        const readerResult = await new Promise((resolve, reject) => {
+          const r = new FileReader();
+          r.onload = () => resolve(r.result);
+          r.onerror = () => reject(new Error("Failed to read file"));
+          r.readAsDataURL(file);
+        });
+
+        const filePath = `user_files/${user.uid}/${Date.now()}_${file.name}`;
+        const sRef = storageRef(storage, filePath);
+
+        await uploadString(sRef, readerResult, "data_url");
+        const downloadURL = await getDownloadURL(sRef);
+
+        const fileRef = push(ref(db, "files/" + user.uid));
+        await set(fileRef, {
+          name: file.name,
+          url: downloadURL,
+          size: file.size,
+          uploadedAt: Date.now()
+        });
+
+        showMessage("File uploaded! ✅");
+        fileInput.value = "";
+      } catch (err) {
+        console.error(err);
+        showMessage(err.message || "Upload failed", false);
+      } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "⬆ Upload File";
+      }
+    };
+
+    function loadFiles(uid) {
+      const filesRef = ref(db, "files/" + uid);
+      onValue(filesRef, snapshot => {
+        fileList.innerHTML = "";
+        const filesData = [];
+
+        if (!snapshot.exists()) {
+          const li = document.createElement("li");
+          li.classList.add("empty-state");
+          li.innerHTML = `<span>📂</span>No files uploaded yet. Start by adding your first file!`;
+          fileList.appendChild(li);
+          fileCountSpan.textContent = "0 files";
+          return;
+        }
+
+        snapshot.forEach(child => {
+          filesData.push({ key: child.key, ...child.val() });
+        });
+
+        fileCountSpan.textContent = `${filesData.length} file${filesData.length !== 1 ? "s" : ""}`;
+
+        filesData.forEach((file, index) => {
+          const li = document.createElement("li");
+          li.style.animationDelay = `${index * 0.05}s`;
+
+          const main = document.createElement("div");
+          main.classList.add("file-main");
+
+          const icon = document.createElement("span");
+          icon.classList.add("file-icon");
+          icon.textContent = getIconForFile(file.name);
+
+          const textWrap = document.createElement("div");
+          textWrap.classList.add("file-text");
+
+          const link = document.createElement("a");
+          link.href = file.url || file.data;
+          link.download = file.name;
+          link.textContent = file.name;
+
+          const meta = document.createElement("div");
+          meta.classList.add("file-meta");
+          meta.textContent = `${formatBytes(file.size)} • ${formatDate(file.uploadedAt)}`;
+
+          textWrap.appendChild(link);
+          textWrap.appendChild(meta);
+
+          main.appendChild(icon);
+          main.appendChild(textWrap);
+
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.classList.add("delete-btn");
+          delBtn.onclick = () => deleteFile(uid, file.key, file.name);
+
+          li.appendChild(main);
+          li.appendChild(delBtn);
+          fileList.appendChild(li);
+        });
+      });
+    }
+
+    function deleteFile(uid, fileKey, fileName) {
+      const confirmDelete = confirm(`Are you sure you want to delete "${fileName}"?`);
+      if (!confirmDelete) return;
+
+      remove(ref(db, "files/" + uid + "/" + fileKey))
+        .then(() => showMessage("File deleted.", true))
+        .catch(e => showMessage(e.message, false));
+    }
+  </script>
+</body>
+</html>
